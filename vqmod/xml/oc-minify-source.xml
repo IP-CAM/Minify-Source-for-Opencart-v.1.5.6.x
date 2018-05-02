@@ -1,0 +1,28 @@
+<modification>
+    <name>Opencart Minify Source</name>
+    <version>1.0</version>
+    <code>OCMYSE</code>
+    <author>Weborigin.nl</author>
+    <email>info@weborigin.nl</email>
+    <link>https://www.weborigin.nl/opencart</link>
+    <file path="system/library/response.php">
+        <operation>
+            <search position="replace"><![CDATA[
+    public function output() {
+            ]]></search>
+            <add><![CDATA[
+    public function output() {
+        /*source compressor*/
+        if ($this->output) {
+            //$this->output = preg_replace('/<!--(.|\n)*?-->/', " ", $this->output);
+            $this->output = preg_replace("/(\n)+/", "\n", $this->output);
+            $this->output = preg_replace("/\r\n+/", "\n", $this->output);
+            $this->output = preg_replace("/\n(\t)+/", "\n", $this->output);
+            $this->output = preg_replace("/\n(\ )+/", "\n", $this->output);
+            $this->output = preg_replace("/\>(\n)+</", '><', $this->output);
+            $this->output = preg_replace("/\>\r\n</", '><', $this->output);
+        }
+            ]]></add>
+        </operation>
+    </file>
+</modification>
